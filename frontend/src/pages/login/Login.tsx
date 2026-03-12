@@ -17,11 +17,40 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Login attempt:', { email, password, rememberMe });
-    navigate('/dashboard');
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+
+  e.preventDefault();
+
+  try {
+
+    const response = await fetch("http://localhost:8000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail);
+    }
+
+    localStorage.setItem("token", data.token);
+
+    navigate("/dashboard");
+
+  } catch (error) {
+
+    alert("Credenciales incorrectas");
+
+  }
+
+};
 
   const inputStyles = "w-full pl-12 pr-12 py-3 rounded-lg border border-gray-200 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-white";
   const iconStyles = "absolute left-4 top-1/2 -translate-y-1/2 text-gray-400";
@@ -70,7 +99,7 @@ const Login: React.FC = () => {
                   <Mail className={iconStyles} size={20} />
                   <input 
                     type="email" 
-                    placeholder="example@ucatolica.edu.co" 
+                    placeholder="example@amigo.edu.co" 
                     className={inputStyles}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -145,7 +174,7 @@ const Login: React.FC = () => {
           <a href="#" className="hover:text-primary transition-colors">Términos de Servicio</a>
           <a href="#" className="hover:text-primary transition-colors">Contáctenos</a>
         </div>
-        <p className="text-xs text-slate-400 mb-2">© 2024 Universidad Católica Luis Amigó. Todos los derechos reservados.</p>
+        <p className="text-xs text-slate-400 mb-2">© 2026 Universidad Católica Luis Amigó. Todos los derechos reservados.</p>
         <div className="flex items-center justify-center space-x-2 text-[10px] text-slate-400 uppercase tracking-widest">
           <ShieldCheck size={12} className="text-primary" />
           <span>Conexión segura via 256-bit SSL</span>

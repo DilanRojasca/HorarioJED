@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+supabase
+bcrypt
+python-jose
+python-dotenv
+email-validator

@@ -34,10 +34,32 @@ const Register: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Registration attempt:', formData);
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+
+    const response = await fetch("http://localhost:8000/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+
+    alert("Usuario registrado correctamente");
+
+    window.location.href = "/login";
+
+  } catch (error) {
+
+    console.error(error);
+    alert("Error al registrar usuario");
+
+  }
+};
 
   const benefits = [
     {
@@ -182,7 +204,7 @@ const Register: React.FC = () => {
                       <input 
                         type="email" 
                         name="email"
-                        placeholder="name@example.com" 
+                        placeholder="example@amigo.edu.co" 
                         className={inputStyles} 
                         onChange={handleChange}
                         required
