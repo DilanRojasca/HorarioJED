@@ -97,7 +97,7 @@ const Dashboard: React.FC = () => {
                 <Clock size={12} />
                 <span>Comienza en 15 minutos</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">¡Hola, Mateo!</h1>
+              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">¡Hola, Erick!</h1>
               <p className="text-white/80 text-lg font-medium">Tu próxima clase está por comenzar. Ten todo listo.</p>
               
               <div className="flex flex-wrap gap-6 pt-4">
