@@ -14,6 +14,9 @@ import {
 import { motion } from 'framer-motion';
 
 const Dashboard: React.FC = () => {
+  const userName = localStorage.getItem("userName") || "Estudiante";
+  const firstName = userName.split(' ')[0];
+
   const scheduleItems = [
     {
       time: "08:00 AM",
@@ -74,7 +77,7 @@ const Dashboard: React.FC = () => {
           
           <div className="flex items-center space-x-3 pl-4 border-l border-gray-100">
             <div className="text-right hidden sm:block">
-              <p className="font-bold text-slate-800 text-sm leading-none">Mateo Salazar</p>
+              <p className="font-bold text-slate-800 text-sm leading-none">{userName}</p>
               <p className="text-[10px] text-slate-400 font-medium">Ingeniería de Sistemas</p>
             </div>
             <div className="w-10 h-10 rounded-full border-2 border-primary/20 overflow-hidden cursor-pointer hover:border-primary transition-colors">
@@ -97,7 +100,7 @@ const Dashboard: React.FC = () => {
                 <Clock size={12} />
                 <span>Comienza en 15 minutos</span>
               </div>
-              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">¡Hola, Erick!</h1>
+              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">¡Hola, {firstName}!</h1>
               <p className="text-white/80 text-lg font-medium">Tu próxima clase está por comenzar. Ten todo listo.</p>
               
               <div className="flex flex-wrap gap-6 pt-4">

@@ -41,6 +41,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
 
     localStorage.setItem("token", data.token);
+    localStorage.setItem("userName", data.user.name);
 
     navigate("/dashboard");
 
