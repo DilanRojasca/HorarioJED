@@ -47,7 +47,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       body: JSON.stringify(formData)
     });
 
-    const data = await response.json();
+    await response.json();
 
     alert("Usuario registrado correctamente");
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   Bell, Clock, MapPin, ChevronRight, Download, Calendar,
   Info, BookOpen, X, Building2, Layers, DoorOpen, Coffee,
-  ChevronLeft, AlertCircle, Loader2, Sparkles, LogOut
+  AlertCircle, Loader2, Sparkles, LogOut
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';

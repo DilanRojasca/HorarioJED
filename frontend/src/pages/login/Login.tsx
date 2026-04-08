@@ -42,8 +42,13 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     localStorage.setItem("token", data.token);
     localStorage.setItem("userName", data.user.name);
+    localStorage.setItem("role", data.user.role);
 
-    navigate("/dashboard");
+    if (data.user.role === "admin") {
+      navigate("/admin/cursos");
+    } else {
+      navigate("/dashboard");
+    }
 
   } catch (error) {
 
