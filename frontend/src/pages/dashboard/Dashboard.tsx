@@ -279,7 +279,7 @@ function ClaseCard({
         <div className={`mt-2 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center z-10
           ${esPasada ? 'bg-slate-100 text-slate-400'
             : esProxima ? 'bg-primary text-white shadow-lg shadow-primary/30'
-            : 'bg-white border-2 border-slate-100 text-slate-300'}`}
+              : 'bg-white border-2 border-slate-100 text-slate-300'}`}
         >
           {esPasada
             ? <span className="text-[10px] font-black">✓</span>
@@ -855,7 +855,7 @@ const Dashboard: React.FC = () => {
 
       <footer className="mt-16 py-10 px-6 border-t border-gray-100 bg-white text-center">
         <p className="text-slate-400 text-xs font-medium mb-4">
-          © 2025 Universidad Católica Luis Amigó • Vigilada por el Ministerio de Educación Nacional
+          © 2026 Universidad Católica Luis Amigó • Vigilada por el Ministerio de Educación Nacional
         </p>
         <div className="flex flex-wrap items-center justify-center gap-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
           <a href="#" className="hover:text-primary transition-colors flex items-center space-x-1"><Info size={12} /><span>Ayuda</span></a>

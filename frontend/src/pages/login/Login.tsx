@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Mail, 
-  Lock, 
-  Eye, 
-  EyeOff, 
+import {
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
   LogIn,
   ShieldCheck
 } from 'lucide-react';
@@ -17,46 +17,46 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
+    try {
 
-    const response = await fetch("http://localhost:8000/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    });
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.detail);
+      if (!response.ok) {
+        throw new Error(data.detail);
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userName", data.user.name);
+      localStorage.setItem("role", data.user.role);
+
+      if (data.user.role === "admin") {
+        navigate("/admin/cursos");
+      } else {
+        navigate("/dashboard");
+      }
+
+    } catch (error) {
+
+      alert("Credenciales incorrectas");
+
     }
 
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("userName", data.user.name);
-    localStorage.setItem("role", data.user.role);
-
-    if (data.user.role === "admin") {
-      navigate("/admin/cursos");
-    } else {
-      navigate("/dashboard");
-    }
-
-  } catch (error) {
-
-    alert("Credenciales incorrectas");
-
-  }
-
-};
+  };
 
   const inputStyles = "w-full pl-12 pr-12 py-3 rounded-lg border border-gray-200 outline-none transition-all duration-200 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-white";
   const iconStyles = "absolute left-4 top-1/2 -translate-y-1/2 text-gray-400";
@@ -71,7 +71,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             <span className="font-bold text-lg text-slate-800 leading-tight">Universidad Católica Luis Amigó</span>
           </div>
         </div>
-        
+
         <div className="flex items-center space-x-1 text-sm">
           <span className="text-gray-500">¿Necesitas ayuda?</span>
           <a href="#" className="font-semibold text-primary hover:underline underline-offset-4">Centro de Soporte</a>
@@ -80,7 +80,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       {/* Main Content */}
       <main className="flex-1 flex items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -103,9 +103,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <label className="block text-sm font-bold text-slate-700">Correo Institucional</label>
                 <div className="relative">
                   <Mail className={iconStyles} size={20} />
-                  <input 
-                    type="email" 
-                    placeholder="example@amigo.edu.co" 
+                  <input
+                    type="email"
+                    placeholder="example@amigo.edu.co"
                     className={inputStyles}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -117,32 +117,31 @@ const handleSubmit = async (e: React.FormEvent) => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="block text-sm font-bold text-slate-700">Contraseña</label>
-                  <a href="#" className="text-xs font-bold text-primary hover:underline">¿Olvidó su contraseña?</a>
                 </div>
                 <div className="relative">
                   <Lock className={iconStyles} size={20} />
-                  <input 
-                    type={showPassword ? "text" : "password"} 
-                    placeholder="••••••••" 
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
                     className={inputStyles}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
-                  <button 
+                  <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors"
                   >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} /> }
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
               </div>
 
               <div className="flex items-center">
-                <input 
-                  type="checkbox" 
-                  id="remember" 
+                <input
+                  type="checkbox"
+                  id="remember"
                   className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
@@ -152,8 +151,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                 </label>
               </div>
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="w-full py-3.5 rounded-lg bg-primary text-white font-bold text-lg hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/20 flex items-center justify-center space-x-2 group"
               >
                 <span>Iniciar Sesión</span>

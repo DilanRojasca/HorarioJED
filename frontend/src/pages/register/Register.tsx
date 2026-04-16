@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { 
-  User, 
-  Mail, 
-  Lock, 
-  IdCard, 
-  Eye, 
-  EyeOff, 
-  ShieldCheck, 
-  Globe, 
-  Users, 
-  HelpCircle 
+import {
+  User,
+  Mail,
+  Lock,
+  IdCard,
+  Eye,
+  EyeOff,
+  ShieldCheck,
+  Globe,
+  Users,
+  HelpCircle
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -34,32 +34,32 @@ const Register: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  try {
+    try {
 
-    const response = await fetch("http://localhost:8000/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    });
+      const response = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
 
-    await response.json();
+      await response.json();
 
-    alert("Usuario registrado correctamente");
+      alert("Usuario registrado correctamente");
 
-    window.location.href = "/login";
+      window.location.href = "/login";
 
-  } catch (error) {
+    } catch (error) {
 
-    console.error(error);
-    alert("Error al registrar usuario");
+      console.error(error);
+      alert("Error al registrar usuario");
 
-  }
-};
+    }
+  };
 
   const benefits = [
     {
@@ -90,7 +90,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             <span className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">Universidad Católica</span>
           </div>
         </div>
-        
+
         <nav className="hidden md:flex items-center space-x-8">
           <a href="#" className="text-sm font-semibold text-gray-600 hover:text-primary transition-colors">Guía de Admisión</a>
           <button className="flex items-center space-x-2 bg-secondary/10 text-secondary border border-secondary/20 px-5 py-2 rounded-lg font-bold hover:bg-secondary hover:text-white transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sm">
@@ -102,18 +102,18 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       {/* Main Content */}
       <main className="flex-1 flex items-center justify-center p-6 pt-28">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex flex-col md:flex-row w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden min-h-[600px]"
         >
           {/* Left Panel */}
-          <div className="w-full md:w-5/12 bg-primary text-white p-10 flex flex-col justify-between relative overflow-hidden" 
-               style={{ background: 'linear-gradient(135deg, #00849a 0%, #006b7d 100%)' }}>
+          <div className="w-full md:w-5/12 bg-primary text-white p-10 flex flex-col justify-between relative overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, #00849a 0%, #006b7d 100%)' }}>
             <div className="relative z-10">
               <div className="space-y-6">
-                <motion.h1 
+                <motion.h1
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
@@ -121,7 +121,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 >
                   Comienza Tu<br />Camino Hoy
                 </motion.h1>
-                <motion.p 
+                <motion.p
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
@@ -133,7 +133,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
               <div className="space-y-4 mt-12">
                 {benefits.map((benefit, idx) => (
-                  <motion.div 
+                  <motion.div
                     key={idx}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -155,8 +155,8 @@ const handleSubmit = async (e: React.FormEvent) => {
               </p>
             </div>
             {/* Pattern Overlay */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none" 
-                 style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
+            <div className="absolute inset-0 opacity-10 pointer-events-none"
+              style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
           </div>
 
           {/* Right Panel */}
@@ -171,11 +171,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                   <label className="block text-sm font-bold text-slate-700 mb-2">Nombre Completo</label>
                   <div className="relative">
                     <User className={iconStyles} size={20} />
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="fullName"
-                      placeholder="Ingresa tu nombre completo" 
-                      className={inputStyles} 
+                      placeholder="Ingresa tu nombre completo"
+                      className={inputStyles}
                       onChange={handleChange}
                       required
                     />
@@ -187,11 +187,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <label className="block text-sm font-bold text-slate-700 mb-2">Cedula</label>
                     <div className="relative">
                       <IdCard className={iconStyles} size={20} />
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         name="cedula"
-                        placeholder="CC" 
-                        className={inputStyles} 
+                        placeholder="CC"
+                        className={inputStyles}
                         onChange={handleChange}
                         required
                       />
@@ -201,11 +201,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <label className="block text-sm font-bold text-slate-700 mb-2">Correo Electrónico</label>
                     <div className="relative">
                       <Mail className={iconStyles} size={20} />
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         name="email"
-                        placeholder="example@amigo.edu.co" 
-                        className={inputStyles} 
+                        placeholder="example@amigo.edu.co"
+                        className={inputStyles}
                         onChange={handleChange}
                         required
                       />
@@ -217,20 +217,20 @@ const handleSubmit = async (e: React.FormEvent) => {
                   <label className="block text-sm font-bold text-slate-700 mb-2">Contraseña</label>
                   <div className="relative">
                     <Lock className={iconStyles} size={20} />
-                    <input 
-                      type={showPassword ? "text" : "password"} 
+                    <input
+                      type={showPassword ? "text" : "password"}
                       name="password"
-                      placeholder="Crea una contraseña segura" 
-                      className={inputStyles} 
+                      placeholder="Crea una contraseña segura"
+                      className={inputStyles}
                       onChange={handleChange}
                       required
                     />
-                    <button 
+                    <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors"
                     >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} /> }
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                   </div>
                   <p className="text-[10px] text-gray-400 mt-2 font-medium">Mín. 8 caracteres con al menos un número y un carácter especial.</p>
@@ -257,7 +257,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       {/* Footer */}
       <footer className="py-8 px-6 text-center text-slate-400 text-xs">
-        <p className="mb-4">© 2024 Universidad Católica Luis Amigó. Todos los derechos reservados.</p>
+        <p className="mb-4">© 2026 Universidad Católica Luis Amigó. Todos los derechos reservados.</p>
         <div className="flex flex-wrap items-center justify-center gap-6">
           <a href="#" className="hover:text-primary transition-colors">Política de Privacidad</a>
           <a href="#" className="hover:text-primary transition-colors">Términos de Servicio</a>
