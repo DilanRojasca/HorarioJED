@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Bell, Clock, MapPin, ChevronRight, Download, Calendar,
   Info, BookOpen, X, Building2, Layers, DoorOpen, Coffee,
-  AlertCircle, Loader2, Sparkles, LogOut
+  AlertCircle, Loader2, Sparkles, LogOut, Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -450,6 +450,31 @@ const Dashboard: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedClase, setSelectedClase] = useState<Clase | null>(null);
   const [seedingDemo, setSeedingDemo] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim() || Object.keys(semanaData).length === 0) return [];
+    const q = searchQuery.toLowerCase();
+    const results: Array<{ clase: Clase; dia: string }> = [];
+    for (const [dia, diaData] of Object.entries(semanaData)) {
+      for (const clase of diaData.clases) {
+        if (
+          clase.materia.toLowerCase().includes(q) ||
+          (clase.codigo && clase.codigo.toLowerCase().includes(q))
+        ) {
+          results.push({ clase, dia });
+        }
+      }
+    }
+    return results;
+  }, [searchQuery, semanaData]);
+
+  const notifCount = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem('horariojed_notificaciones') || '[]').length;
+    } catch { return 0; }
+  }, []);
 
   const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` };
 
@@ -513,6 +538,96 @@ const Dashboard: React.FC = () => {
         <ClaseModal clase={selectedClase} onClose={() => setSelectedClase(null)} />
       )}
 
+      {/* RF06 — Buscador de asignaturas */}
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-20 p-4"
+            onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
+          >
+            <motion.div
+              initial={{ y: -16, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -16, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center px-5 py-4 border-b border-slate-100">
+                <Search size={18} className="text-slate-400 mr-3 flex-shrink-0" />
+                <input
+                  autoFocus
+                  type="text"
+                  placeholder="Buscar por nombre o código de asignatura..."
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  className="flex-1 text-slate-800 font-medium outline-none placeholder:text-slate-300 text-sm bg-transparent"
+                />
+                <button
+                  onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
+                  className="ml-3 p-1 rounded-full hover:bg-slate-100 text-slate-400 transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              <div className="max-h-96 overflow-y-auto">
+                {searchQuery.trim() === '' ? (
+                  <div className="p-10 text-center text-slate-400">
+                    <Search size={32} className="mx-auto mb-3 opacity-20" />
+                    <p className="text-sm font-medium">Escribe para buscar una asignatura</p>
+                  </div>
+                ) : searchResults.length === 0 ? (
+                  <div className="p-10 text-center text-slate-400">
+                    <p className="font-bold text-slate-500 text-sm">Sin resultados</p>
+                    <p className="text-xs mt-1">No se encontró "{searchQuery}"</p>
+                  </div>
+                ) : (
+                  <div className="p-2">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 py-2">
+                      {searchResults.length} resultado{searchResults.length !== 1 ? 's' : ''}
+                    </p>
+                    {searchResults.map(({ clase, dia }, idx) => (
+                      <button
+                        key={`${clase.id}-${dia}-${idx}`}
+                        onClick={() => {
+                          setSelectedClase(clase);
+                          setSearchOpen(false);
+                          setSearchQuery('');
+                        }}
+                        className="w-full flex items-center p-3 rounded-2xl hover:bg-slate-50 transition-colors text-left gap-3"
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <BookOpen size={16} className="text-primary" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-slate-800 text-sm truncate">{clase.materia}</span>
+                            {clase.codigo && (
+                              <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full flex-shrink-0">
+                                {clase.codigo}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-slate-400 mt-0.5">
+                            <span className="capitalize">{DIAS_DISPLAY[dia] ?? dia}</span>
+                            {' · '}{clase.hora_inicio} – {clase.hora_fin}
+                            {clase.salon && ` · ${clase.salon}`}
+                          </p>
+                        </div>
+                        <ChevronRight size={16} className="text-slate-300 flex-shrink-0" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Navbar */}
       <nav className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center space-x-8">
@@ -536,9 +651,26 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center space-x-4">
-          <button className="relative p-2 text-slate-400 hover:text-primary transition-colors">
+          <button
+            onClick={() => setSearchOpen(true)}
+            title="Buscar asignatura (RF06)"
+            className="p-2 text-slate-400 hover:text-primary transition-colors"
+          >
+            <Search size={22} />
+          </button>
+          <button
+            onClick={() => navigate('/notificaciones')}
+            title="Notificaciones"
+            className="relative p-2 text-slate-400 hover:text-primary transition-colors"
+          >
             <Bell size={22} />
-            <span className="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-white" />
+            {notifCount > 0 ? (
+              <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 bg-secondary rounded-full border-2 border-white flex items-center justify-center text-[9px] font-black text-white px-0.5">
+                {notifCount > 9 ? '9+' : notifCount}
+              </span>
+            ) : (
+              <span className="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-white" />
+            )}
           </button>
           <div className="flex items-center space-x-3 pl-4 border-l border-gray-100">
             <div className="text-right hidden sm:block">
