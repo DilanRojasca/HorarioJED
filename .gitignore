@@ -173,3 +173,4 @@ build/
 secrets/
 credentials.json
 service_account.json
+CLAUDE.md
