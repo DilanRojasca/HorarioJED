@@ -5,6 +5,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import PanelAdminCursos from './pages/panel_admin_cursos_conectado/PanelAdminCursos';
 import PanelAdminEstudiantes from './pages/panel_admin_lista_estudiantes_conectado/PanelAdminEstudiantes';
 import Notificaciones from './pages/notificaciones/Notificaciones';
+import Calendario from './pages/calendario/Calendario';
 
 // Protected Route for Admin
 const AdminRoute = ({ children }: { children: JSX.Element }) => {
@@ -35,6 +36,7 @@ function App() {
         {/* User protected routes */}
         <Route path="/dashboard" element={<AuthRoute><Dashboard /></AuthRoute>} />
         <Route path="/notificaciones" element={<AuthRoute><Notificaciones /></AuthRoute>} />
+        <Route path="/calendario" element={<AuthRoute><Calendario /></AuthRoute>} />
         
         {/* Admin protected routes */}
         <Route path="/admin/cursos" element={<AdminRoute><PanelAdminCursos /></AdminRoute>} />

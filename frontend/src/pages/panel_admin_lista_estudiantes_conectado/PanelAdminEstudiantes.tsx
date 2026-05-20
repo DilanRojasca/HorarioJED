@@ -17,7 +17,7 @@ const PanelAdminEstudiantes: React.FC = () => {
     const fetchStudents = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch("http://localhost:8000/admin/students", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/students`, {
           headers: {
             "Authorization": `Bearer ${token}`
           }

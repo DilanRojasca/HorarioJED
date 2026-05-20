@@ -44,7 +44,7 @@ interface DiaData {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const API = 'http://localhost:8000';
+const API = import.meta.env.VITE_API_URL as string;
 
 const DIAS_ORDEN = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
 const DIAS_DISPLAY: Record<string, string> = {
@@ -915,13 +915,16 @@ const Dashboard: React.FC = () => {
                   <ChevronRight className="text-slate-200 group-hover:text-primary transition-colors" size={18} />
                 </button>
 
-                <button className="w-full bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center group hover:border-primary transition-all duration-300 hover:shadow-md">
+                <button
+                  onClick={() => navigate('/calendario')}
+                  className="w-full bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex items-center group hover:border-secondary/50 transition-all duration-300 hover:shadow-md"
+                >
                   <div className="bg-secondary/10 p-3 rounded-2xl text-secondary mr-4 group-hover:bg-secondary group-hover:text-white transition-colors">
                     <Calendar size={20} />
                   </div>
                   <div className="text-left flex-1">
                     <p className="font-bold text-slate-800 text-sm">Calendario Académico</p>
-                    <p className="text-xs text-slate-400 font-medium">Fechas clave y exámenes</p>
+                    <p className="text-xs text-slate-400 font-medium">Vista semana · mes · año</p>
                   </div>
                   <ChevronRight className="text-slate-200 group-hover:text-secondary transition-colors" size={18} />
                 </button>
